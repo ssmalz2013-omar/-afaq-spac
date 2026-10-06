@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>محاكي إطلاق الصاروخ | أفق</title>
+<style>
+:root{
+  --bg:#05030d;
+  --panel:rgba(17,13,36,.78);
+  --panel2:rgba(25,17,55,.72);
+  --line:rgba(162,133,255,.24);
+  --txt:#f8f6ff;
+  --muted:#bdb7d6;
+  --violet:#9a6cff;
+  --violet2:#7656ff;
+  --cyan:#58e6ff;
+  --pink:#db6dff;
+  --green:#72f3ba;
+  --amber:#ffd36a;
+  --danger:#ff7b8f;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#030208;color:var(--txt);font-family:Tahoma,Arial,sans-serif}
+body{
+  background:
+  radial-gradient(circle at 20% -10%,rgba(144,80,255,.35),transparent 27%),
+  radial-gradient(circle at 88% 12%,rgba(50,205,255,.18),transparent 23%),
+  linear-gradient(180deg,#090515 0,#06030f 55%,#020308 100%);
+  overflow-x:hidden;
+}
+body:before,body:after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(#fff 1px,transparent 1.3px),
+    radial-gradient(#7adfff 1px,transparent 1.4px);
+  background-size:92px 92px,153px 153px;
+  opacity:.22;
+}
+body:after{background-size:220px 220px;opacity:.12;transform:translateY(40px)}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:auto;padding:16px}
+.top{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:14px;
+}
+.brand{display:flex;align-items:center;gap:10px}
+.brandmark{
+  width:42px;height:42px;border-radius:14px;
+  display:grid;place-items:center;font-size:23px;
+  background:linear-gradient(145deg,rgba(151,101,255,.28),rgba(65,214,255,.13));
+  border:1px solid var(--line);box-shadow:0 0 30px rgba(133,90,255,.16);
+}
+.brand h1{font-size:18px;margin:0}
+.brand small{display:block;color:var(--muted);margin-top:3px}
+.badge{
+  padding:8px 11px;border-radius:999px;border:1px solid var(--line);
+  background:rgba(13,8,28,.7);font-size:12px;color:#dcd6f2
+}
+.grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:14px;
+}
+.panel{
+  background:linear-gradient(155deg,rgba(24,15,52,.83),rgba(10,10,24,.82));
+  border:1px solid var(--line);border-radius:24px;overflow:hidden;
+  box-shadow:0 18px 60px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.03);
+}
+.panelhead{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 15px;border-bottom:1px solid rgba(255,255,255,.06)
+}
+.panelhead b{font-size:14px}
+.status{
+  display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)
+}
+.dot{width:8px;height:8px;border-radius:50%;background:#7c8299;box-shadow:0 0 0 4px rgba(124,130,153,.08)}
+.dot.live{background:var(--green);box-shadow:0 0 0 4px rgba(114,243,186,.10),0 0 15px rgba(114,243,186,.6)}
+.viewport{
+  position:relative;height:500px;overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 105%,rgba(90,71,190,.24),transparent 33%),
+    linear-gradient(180deg,#0c0820 0,#07081a 47%,#070a18 100%);
+}
+.horizon{
+  position:absolute;left:50%;bottom:-170px;transform:translateX(-50%);
+  width:760px;height:270px;border-radius:50%;
+  background:radial-gradient(circle at 50% 0%,#2d6fa9 0 5%,#173d70 22%,#0e2348 46%,#071228 68%);
+  box-shadow:0 -12px 55px rgba(75,172,255,.18)
+}
+.pad{
+  position:absolute;bottom:54px;left:50%;transform:translateX(-50%);
+  width:125px;height:6px;border-radius:50%;background:#24283a;
+  box-shadow:0 0 24px rgba(255,255,255,.06)
+}
+.rocket{
+  position:absolute;left:50%;bottom:61px;transform:translateX(-50%);
+  font-size:72px;filter:drop-shadow(0 0 20px rgba(124,98,255,.18));
+  will-change:transform,bottom;
+}
+.rocket.running{filter:drop-shadow(0 18px 18px rgba(255,116,70,.55)) drop-shadow(0 0 28px rgba(113,214,255,.18))}
+.flame{
+  position:absolute;left:50%;bottom:46px;transform:translateX(-50%);
+  width:20px;height:0;border-radius:50% 50% 45% 45%;
+  background:linear-gradient(#fff6a8,#ff9d43,#ff4f75,transparent);
+  filter:blur(.3px) drop-shadow(0 0 13px rgba(255,117,70,.8));
+  opacity:0;transition:.25s;
+}
+.flame.on{height:64px;opacity:1;animation:flicker .15s infinite alternate}
+@keyframes flicker{to{transform:translateX(-50%) scaleX(.82) scaleY(1.08)}}
+.trail{
+  position:absolute;left:50%;bottom:37px;transform:translateX(-50%);
+  width:46px;height:0;opacity:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.44),rgba(145,180,255,.10),transparent);
+  filter:blur(7px);border-radius:50%;transition:.3s
+}
+.trail.on{height:160px;opacity:.55}
+.altitudeScale{
+  position:absolute;left:14px;top:18px;bottom:18px;width:44px;border-left:1px solid rgba(255,255,255,.12)
+}
+.tick{position:absolute;left:-1px;width:11px;height:1px;background:rgba(255,255,255,.22)}
+.tick span{position:absolute;left:15px;top:-7px;font-size:10px;color:#8f98b4;white-space:nowrap}
+.phaseChip{
+  position:absolute;top:16px;right:16px;padding:8px 12px;border-radius:999px;
+  background:rgba(9,7,24,.65);border:1px solid var(--line);
+  backdrop-filter:blur(8px);font-size:12px;color:#e4dfff
+}
+.metrics{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:9px;padding:12px;
+  border-top:1px solid rgba(255,255,255,.06);background:rgba(8,6,18,.7)
+}
+.metric{
+  background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.055);
+  border-radius:14px;padding:10px;text-align:center
+}
+.metric small{display:block;color:#938da8;font-size:10px;margin-bottom:4px}
+.metric b{font-size:18px}
+.metric em{font-style:normal;color:#8ecfff;font-size:10px}
+.side{display:grid;gap:14px}
+.controls{padding:14px}
+label{display:block;color:#c8c0de;font-size:12px;margin:9px 0 5px}
+input[type=range]{width:100%;accent-color:#956fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.read{
+  display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#a9a2be;
+  margin-top:4px
+}
+.read b{color:#fff}
+.primary{
+  width:100%;margin-top:12px;padding:13px 16px;border:0;border-radius:15px;
+  font-weight:800;font-size:15px;cursor:pointer;color:#090513;
+  background:linear-gradient(135deg,#9a6cff,#5fe5ff);
+  box-shadow:0 12px 30px rgba(121,86,255,.25)
+}
+.primary:disabled{opacity:.48;cursor:not-allowed}
+.secondary{
+  width:100%;margin-top:8px;padding:11px 14px;border-radius:14px;cursor:pointer;
+  background:rgba(255,255,255,.045);border:1px solid var(--line);color:#fff
+}
+.mission{padding:12px 14px}
+.step{
+  display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:9px;
+  padding:10px 0;border-bottom:1px solid rgba(255,255,255,.055)
+}
+.step:last-child{border-bottom:0}
+.ico{
+  width:28px;height:28px;border-radius:9px;display:grid;place-items:center;
+  background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.06);
+  font-size:13px
+}
+.step b{display:block;font-size:12px}.step small{color:#8f8aa2;font-size:10px}
+.stepstate{font-size:10px;padding:5px 7px;border-radius:999px;background:rgba(255,255,255,.045);color:#8d879e}
+.step.done .ico{background:rgba(114,243,186,.11);border-color:rgba(114,243,186,.28)}
+.step.done .stepstate{background:rgba(114,243,186,.11);color:var(--green)}
+.step.active .ico{background:rgba(151,104,255,.16);border-color:rgba(151,104,255,.36);box-shadow:0 0 17px rgba(151,104,255,.18)}
+.step.active .stepstate{color:#c4adff;background:rgba(151,104,255,.12)}
+.progressbox{padding:14px}
+.progressbar{height:10px;border-radius:999px;background:rgba(255,255,255,.055);overflow:hidden}
+.progressfill{height:100%;width:0;background:linear-gradient(90deg,#7656ff,#9a6cff,#58e6ff);transition:width .25s linear}
+.progressmeta{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:#918aa6}
+.note{
+  margin-top:12px;padding:11px 13px;border-radius:15px;
+  border:1px solid rgba(255,211,106,.16);background:rgba(255,211,106,.045);
+  color:#cfc6ac;font-size:11px;line-height:1.7
+}
+.log{
+  padding:12px 14px;max-height:150px;overflow:auto;font-family:ui-monospace,Menlo,monospace;
+  font-size:10px;line-height:1.8;color:#a9a4ba
+}
+.log div{border-bottom:1px dashed rgba(255,255,255,.04);padding:2px 0}
+.log b{color:#77e8ff}
+.footer{text-align:center;color:#79748a;font-size:10px;padding:14px}
+@media(max-width:860px){
+  .grid{grid-template-columns:1fr}
+  .viewport{height:410px}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .wrap{padding:9px}
+  .top{align-items:flex-start}
+  .brand h1{font-size:16px}
+  .badge{font-size:10px}
+  .viewport{height:365px}
+  .rocket{font-size:62px}
+  .metrics{gap:6px;padding:8px}
+  .metric{padding:8px}
+  .metric b{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <div class="brandmark">🚀</div>
+      <div>
+        <h1>مركز إطلاق أفق</h1>
+        <small>محاكاة تعليمية تفاعلية للإطلاق والمدار</small>
+      </div>
+    </div>
+    <div class="badge">وضع المهمة: تجريبي</div>
+  </div>
+
+  <div class="grid">
+    <section class="panel">
+      <div class="panelhead">
+        <b>المشهد المباشر</b>
+        <div class="status"><span class="dot" id="liveDot"></span><span id="liveText">جاهز</span></div>
+      </div>
+
+      <div class="viewport" id="viewport">
+        <div class="phaseChip" id="phaseChip">على منصة الإطلاق</div>
+        <div class="altitudeScale">
+          <div class="tick" style="bottom:0%"><span>0 km</span></div>
+          <div class="tick" style="bottom:25%"><span>25</span></div>
+          <div class="tick" style="bottom:50%"><span>50</span></div>
+          <div class="tick" style="bottom:75%"><span>75</span></div>
+          <div class="tick" style="bottom:100%"><span>100+</span></div>
+        </div>
+        <div class="horizon"></div>
+        <div class="pad"></div>
+        <div class="trail" id="trail"></div>
+        <div class="flame" id="flame"></div>
+        <div class="rocket" id="rocket">🚀</div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><small>الارتفاع</small><b id="alt">0.0</b> <em>km</em></div>
+        <div class="metric"><small>السرعة</small><b id="speed">0</b> <em>km/h</em></div>
+        <div class="metric"><small>الوقود</small><b id="fuel">100</b> <em>%</em></div>
+        <div class="metric"><small>التسارع</small><b id="accel">0.0</b> <em>g</em></div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="panel">
+        <div class="panelhead"><b>إعدادات المهمة</b><span class="status">قبل الإطلاق</span></div>
+        <div class="controls">
+          <label>قوة الدفع</label>
+          <input id="thrust" type="range" min="70" max="120" value="100">
+          <div class="read"><span>النسبة</span><b id="thrustVal">100%</b></div>
+
+          <label>حمولة الصاروخ</label>
+          <input id="payload" type="range" min="1" max="20" value="8">
+          <div class="read"><span>الحمولة</span><b><span id="payloadVal">8</span> طن</b></div>
+
+          <div class="row">
+            <button class="primary" id="launchBtn">ابدأ المحاكاة</button>
+            <button class="secondary" id="resetBtn">إعادة ضبط</button>
+          </div>
+
+          <div class="note">
+            هذه محاكاة تعليمية مبسطة وليست نموذجًا هندسيًا حقيقيًا. القيم مصممة لتوضيح مراحل الإطلاق، تغيّر الارتفاع والسرعة، واستهلاك الوقود.
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelhead"><b>خطوات المهمة</b><span class="status" id="stepCount">0 / 5</span></div>
+        <div class="mission">
+          <div class="step" data-step="0"><div class="ico">1</div><div><b>تهيئة الأنظمة</b><small>فحص الدفع والملاحة</small></div><span class="stepstate">بانتظار</span></div>
+          <div class="step" data-step="1"><div class="ico">2</div><div><b>الاشتعال والإقلاع</b><small>مغادرة منصة الإطلاق</small></div><span class="stepstate">بانتظار</span></div>
+          <div class="step" data-step="2"><div class="ico">3</div><div><b>العبور الجوي</b><small>تجاوز الغلاف الجوي الكثيف</small></div><span class="stepstate">بانتظار</span></div>
+          <div class="step" data-step="3"><div class="ico">4</div><div><b>فصل المرحلة</b><small>تخفيف الكتلة ومواصلة التسارع</small></div><span class="stepstate">بانتظار</span></div>
+          <div class="step" data-step="4"><div class="ico">5</div><div><b>إدخال مداري</b><small>تحقيق سرعة مدارية تقريبية</small></div><span class="stepstate">بانتظار</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelhead"><b>تقدم المهمة</b><span class="status" id="missionTime">T+ 00:00</span></div>
+        <div class="progressbox">
+          <div class="progressbar"><div class="progressfill" id="progressFill"></div></div>
+          <div class="progressmeta"><span id="progressText">جاهز للبدء</span><span id="progressNum">0%</span></div>
+        </div>
+        <div class="log" id="log">
+          <div><b>SYS</b> الأنظمة في وضع الاستعداد.</div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="footer">أفق | إعداد المعلمة / سلوى الزهراني</div>
+</div>
+
+<script>
+const el = id => document.getElementById(id);
+const steps=[...document.querySelectorAll('.step')];
+
+let running=false, raf=null, start=0, duration=22000;
+
+function setStep(activeIndex){
+  let done=0;
+  steps.forEach((s,i)=>{
+    s.classList.remove('active','done');
+    const state=s.querySelector('.stepstate');
+    if(i<activeIndex){s.classList.add('done');state.textContent='تم';done++}
+    else if(i===activeIndex){s.classList.add('active');state.textContent='جارٍ التنفيذ'}
+    else state.textContent='بانتظار';
+  });
+  if(activeIndex>=steps.length){
+    steps.forEach(s=>{s.classList.remove('active');s.classList.add('done');s.querySelector('.stepstate').textContent='تم'});
+    done=steps.length;
+  }
+  el('stepCount').textContent=`${done} / ${steps.length}`;
+}
+
+function addLog(text){
+  const line=document.createElement('div');
+  line.innerHTML=`<b>TLM</b> ${text}`;
+  el('log').prepend(line);
+}
+
+function fmtTime(ms){
+  const s=Math.floor(ms/1000);
+  return `T+ 00:${String(s).padStart(2,'0')}`;
+}
+
+function phaseFor(p){
+  if(p<.08) return {name:'تهيئة الأنظمة',step:0,alt:0,speed:0,fuel:100,acc:0};
+  if(p<.26) return {name:'الاشتعال والإقلاع',step:1};
+  if(p<.50) return {name:'العبور الجوي',step:2};
+  if(p<.72) return {name:'فصل المرحلة الأولى',step:3};
+  if(p<.96) return {name:'تسارع مداري',step:4};
+  return {name:'إدخال مداري ناجح',step:5};
+}
+
+let lastPhase=-1;
+function frame(ts){
+  if(!running)return;
+  const t=ts-start;
+  const p=Math.min(t/duration,1);
+  const phase=phaseFor(p);
+
+  let alt,speed,fuel,acc;
+  if(p<.08){
+    alt=0; speed=0; fuel=100; acc=0;
+  }else if(p<.26){
+    const q=(p-.08)/.18;
+    alt=8*Math.pow(q,1.65);
+    speed=1300*Math.pow(q,1.45);
+    fuel=100-18*q;
+    acc=.4+1.25*q;
+  }else if(p<.50){
+    const q=(p-.26)/.24;
+    alt=8+32*Math.pow(q,1.2);
+    speed=1300+4300*q;
+    fuel=82-31*q;
+    acc=1.65+.55*Math.sin(q*Math.PI);
+  }else if(p<.72){
+    const q=(p-.50)/.22;
+    alt=40+45*q;
+    speed=5600+7800*q;
+    fuel=51-25*q;
+    acc=1.2+1.0*q;
+  }else{
+    const q=(p-.72)/.28;
+    alt=85+115*q;
+    speed=13400+14500*q;
+    fuel=26-18*q;
+    acc=2.2-1.1*q;
+  }
+
+  alt*=Number(el('thrust').value)/100;
+  speed*=Number(el('thrust').value)/100;
+  const payloadPenalty=(Number(el('payload').value)-8)*.012;
+  alt*=Math.max(.78,1-payloadPenalty);
+  speed*=Math.max(.80,1-payloadPenalty);
+
+  el('alt').textContent=alt.toFixed(1);
+  el('speed').textContent=Math.round(speed).toLocaleString('en-US');
+  el('fuel').textContent=Math.max(0,Math.round(fuel));
+  el('accel').textContent=Math.max(0,acc).toFixed(1);
+  el('missionTime').textContent=fmtTime(t);
+  el('progressFill').style.width=`${p*100}%`;
+  el('progressNum').textContent=`${Math.round(p*100)}%`;
+  el('phaseChip').textContent=phase.name;
+  el('progressText').textContent=phase.name;
+
+  const bottom=61 + Math.min(290, alt*1.75);
+  el('rocket').style.bottom=`${bottom}px`;
+
+  if(phase.step!==lastPhase){
+    lastPhase=phase.step;
+    setStep(phase.step);
+    addLog(phase.name);
+  }
+
+  if(p<1){
+    raf=requestAnimationFrame(frame);
+  }else{
+    finish();
+  }
+}
+
+function launch(){
+  if(running)return;
+  running=true;
+  lastPhase=-1;
+  el('launchBtn').disabled=true;
+  el('thrust').disabled=true;
+  el('payload').disabled=true;
+  el('liveDot').classList.add('live');
+  el('liveText').textContent='بث حي';
+  el('rocket').classList.add('running');
+  el('flame').classList.add('on');
+  el('trail').classList.add('on');
+  addLog('بدء تسلسل الإطلاق.');
+  setStep(0);
+  start=performance.now();
+  raf=requestAnimationFrame(frame);
+}
+
+function finish(){
+  running=false;
+  el('flame').classList.remove('on');
+  el('trail').classList.remove('on');
+  el('liveText').textContent='مهمة مكتملة';
+  el('phaseChip').textContent='تم تحقيق المدار';
+  el('progressText').textContent='اكتملت المهمة بنجاح';
+  el('progressNum').textContent='100%';
+  el('progressFill').style.width='100%';
+  setStep(steps.length);
+  el('stepCount').textContent='5 / 5';
+  addLog('إدخال مداري ناجح — انتهت المحاكاة.');
+  el('launchBtn').disabled=false;
+}
+
+function reset(){
+  running=false;
+  if(raf)cancelAnimationFrame(raf);
+  el('launchBtn').disabled=false;
+  el('thrust').disabled=false;
+  el('payload').disabled=false;
+  el('liveDot').classList.remove('live');
+  el('liveText').textContent='جاهز';
+  el('rocket').classList.remove('running');
+  el('rocket').style.bottom='61px';
+  el('flame').classList.remove('on');
+  el('trail').classList.remove('on');
+  el('alt').textContent='0.0';
+  el('speed').textContent='0';
+  el('fuel').textContent='100';
+  el('accel').textContent='0.0';
+  el('missionTime').textContent='T+ 00:00';
+  el('progressFill').style.width='0%';
+  el('progressNum').textContent='0%';
+  el('progressText').textContent='جاهز للبدء';
+  el('phaseChip').textContent='على منصة الإطلاق';
+  steps.forEach(s=>{s.classList.remove('active','done');s.querySelector('.stepstate').textContent='بانتظار'});
+  el('stepCount').textContent='0 / 5';
+  el('log').innerHTML='<div><b>SYS</b> الأنظمة في وضع الاستعداد.</div>';
+  lastPhase=-1;
+}
+
+el('thrust').oninput=()=>el('thrustVal').textContent=`${el('thrust').value}%`;
+el('payload').oninput=()=>el('payloadVal').textContent=el('payload').value;
+el('launchBtn').onclick=launch;
+el('resetBtn').onclick=reset;
+</script>
+</body>
+</html>
