@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>أفق | مركز الإطلاق</title>
+<style>
+:root{
+  --bg:#05040b; --panel:#0d0a18; --panel2:#131022; --line:#2b2442;
+  --text:#f7f5ff; --muted:#aaa3bf; --violet:#9a78ff; --cyan:#5ee7ff;
+  --pink:#e36cff; --green:#6ef3b4; --amber:#ffc96b; --danger:#ff6d83;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#05040b;color:var(--text);font-family:Tahoma,Arial,sans-serif}
+body{
+  background:
+    radial-gradient(circle at 20% -10%,rgba(129,84,255,.28),transparent 28%),
+    radial-gradient(circle at 85% 8%,rgba(43,197,255,.15),transparent 24%),
+    linear-gradient(180deg,#080611 0,#05040b 70%,#020205 100%);
+  overflow-x:hidden;
+}
+#stars{position:fixed;inset:0;pointer-events:none;opacity:.35;background-image:
+radial-gradient(#fff 1px,transparent 1.2px),
+radial-gradient(#6be5ff 1px,transparent 1.2px);
+background-size:110px 110px,180px 180px;background-position:0 0,30px 60px;animation:stars 60s linear infinite}
+@keyframes stars{to{background-position:0 -600px,30px -480px}}
+.app{position:relative;z-index:1;max-width:1200px;margin:auto;padding:14px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(145deg,rgba(150,105,255,.25),rgba(76,221,255,.10));border:1px solid var(--line);box-shadow:0 0 24px rgba(140,93,255,.12)}
+.brand h1{font-size:18px;margin:0}.brand small{display:block;color:var(--muted);margin-top:3px}
+.mode{font-size:12px;color:#ded8ef;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:999px;padding:8px 12px}
+.layout{display:grid;grid-template-columns:1.25fr .75fr;gap:12px}
+.card{background:linear-gradient(160deg,rgba(18,14,32,.95),rgba(10,8,20,.94));border:1px solid var(--line);border-radius:24px;box-shadow:0 18px 50px rgba(0,0,0,.22);overflow:hidden}
+.cardhead{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid rgba(255,255,255,.055)}
+.cardhead b{font-size:14px}.live{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}
+.livedot{width:8px;height:8px;border-radius:50%;background:#777389}.livedot.on{background:var(--green);box-shadow:0 0 12px rgba(110,243,180,.75)}
+.stage{position:relative;height:560px;overflow:hidden;background:
+radial-gradient(circle at 50% 100%,rgba(52,105,185,.20),transparent 30%),
+linear-gradient(180deg,#0d0a1e 0,#080716 48%,#060914 100%)}
+.earth{position:absolute;left:50%;bottom:-215px;transform:translateX(-50%);width:820px;height:320px;border-radius:50%;
+background:radial-gradient(circle at 50% 0%,#3d8fc6 0 7%,#215382 25%,#102d50 49%,#07172c 70%);
+box-shadow:0 -10px 70px rgba(89,186,255,.18)}
+.launchpad{position:absolute;left:50%;bottom:62px;transform:translateX(-50%);width:170px;height:8px;border-radius:50%;background:#252438;box-shadow:0 0 25px rgba(255,255,255,.05)}
+.rocketWrap{position:absolute;left:50%;bottom:68px;width:90px;height:180px;transform:translateX(-50%);will-change:bottom,transform}
+.rocketSvg{width:90px;height:180px;filter:drop-shadow(0 0 16px rgba(124,104,255,.18));overflow:visible}
+.engineGlow{opacity:0;transition:.2s}
+.engineGlow.on{opacity:1;animation:pulse .16s infinite alternate}
+@keyframes pulse{to{transform:scaleY(1.12)}}
+.smoke{position:absolute;left:50%;bottom:55px;transform:translateX(-50%);width:70px;height:0;opacity:0;border-radius:50%;background:radial-gradient(ellipse,rgba(255,255,255,.24),rgba(173,181,255,.08) 55%,transparent 72%);filter:blur(8px);transition:.25s}
+.smoke.on{height:150px;opacity:.55}
+.telemetryOverlay{position:absolute;inset:0;pointer-events:none}
+.altScale{position:absolute;left:14px;top:20px;bottom:20px;width:52px;border-left:1px solid rgba(255,255,255,.12)}
+.t{position:absolute;left:-1px;width:12px;height:1px;background:rgba(255,255,255,.2)}
+.t span{position:absolute;left:16px;top:-7px;font-size:10px;color:#8e88a2}
+.phase{position:absolute;top:14px;right:14px;padding:8px 12px;border-radius:999px;background:rgba(8,6,18,.68);border:1px solid var(--line);font-size:11px;color:#e6e0f6;backdrop-filter:blur(8px)}
+.countdown{position:absolute;left:50%;top:36%;transform:translate(-50%,-50%);font-size:82px;font-weight:900;letter-spacing:2px;text-shadow:0 0 30px rgba(167,111,255,.42);opacity:0}
+.countdown.show{opacity:1}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;border-top:1px solid rgba(255,255,255,.055);background:rgba(7,6,14,.82)}
+.metric{background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.05);border-radius:14px;padding:9px;text-align:center}
+.metric span{display:block;font-size:10px;color:#908a9f;margin-bottom:4px}
+.metric b{font-size:18px}.metric em{font-size:10px;color:#87dcff;font-style:normal}
+.side{display:grid;gap:12px}
+.controls{padding:13px}
+label{display:block;font-size:12px;color:#cbc4df;margin:8px 0 4px}
+input[type=range]{width:100%;accent-color:#9778ff}
+.val{display:flex;justify-content:space-between;font-size:11px;color:#8e879e}.val b{color:#fff}
+button{font-family:inherit}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.primary,.secondary{border-radius:14px;padding:12px 13px;cursor:pointer}
+.primary{border:0;background:linear-gradient(135deg,#9475ff,#5adff5);color:#090713;font-weight:800;box-shadow:0 12px 28px rgba(123,92,255,.22)}
+.secondary{background:rgba(255,255,255,.04);border:1px solid var(--line);color:#fff}
+.primary:disabled{opacity:.5}
+.hint{margin-top:10px;padding:10px 11px;border-radius:13px;border:1px solid rgba(255,201,107,.13);background:rgba(255,201,107,.035);color:#c7bea4;font-size:10px;line-height:1.65}
+.timeline{padding:10px 13px}
+.step{display:grid;grid-template-columns:31px 1fr auto;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.045)}
+.step:last-child{border-bottom:0}
+.stepnum{width:29px;height:29px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.055);font-size:11px}
+.step b{display:block;font-size:12px}.step small{font-size:10px;color:#8a8497}
+.state{font-size:9px;border-radius:999px;padding:5px 7px;background:rgba(255,255,255,.04);color:#8d879d}
+.step.active .stepnum{background:rgba(145,111,255,.14);border-color:rgba(145,111,255,.32);box-shadow:0 0 16px rgba(145,111,255,.14)}
+.step.active .state{color:#c9b8ff;background:rgba(145,111,255,.11)}
+.step.done .stepnum{background:rgba(110,243,180,.10);border-color:rgba(110,243,180,.23)} .step.done .state{color:var(--green);background:rgba(110,243,180,.08)}
+.progress{padding:12px 13px}
+.bar{height:9px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}.fill{height:100%;width:0;background:linear-gradient(90deg,#6d55ff,#9977ff,#5de7ff);transition:width .2s linear}
+.progressMeta{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#8d879c}
+.log{padding:10px 13px;max-height:125px;overflow:auto;font:10px/1.7 ui-monospace,Menlo,monospace;color:#a7a1b7}
+.log div{padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.03)}.log b{color:#70e4ff}
+.footer{text-align:center;color:#767183;font-size:10px;padding:12px}
+@media(max-width:860px){.layout{grid-template-columns:1fr}.stage{height:430px}.metrics{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.app{padding:8px}.topbar{align-items:flex-start}.brand h1{font-size:16px}.mode{font-size:10px}.stage{height:380px}.rocketWrap{width:76px;height:150px}.rocketSvg{width:76px;height:150px}.countdown{font-size:68px}.metric b{font-size:16px}}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🚀</div>
+      <div><h1>مركز إطلاق أفق</h1><small>محاكاة إطلاق ومدار تعليمية</small></div>
+    </div>
+    <div class="mode">MISSION CONTROL</div>
+  </div>
+
+  <div class="layout">
+    <section class="card">
+      <div class="cardhead">
+        <b>المشهد المباشر</b>
+        <div class="live"><span class="livedot" id="liveDot"></span><span id="liveText">جاهز</span></div>
+      </div>
+      <div class="stage">
+        <div class="earth"></div>
+        <div class="launchpad"></div>
+        <div class="smoke" id="smoke"></div>
+
+        <div class="rocketWrap" id="rocketWrap">
+          <svg class="rocketSvg" viewBox="0 0 100 200" aria-label="صاروخ">
+            <defs>
+              <linearGradient id="bodyG" x1="0" x2="1">
+                <stop offset="0" stop-color="#d9e7ff"/>
+                <stop offset=".52" stop-color="#ffffff"/>
+                <stop offset="1" stop-color="#b7c7e5"/>
+              </linearGradient>
+              <linearGradient id="finG" x1="0" x2="1">
+                <stop offset="0" stop-color="#8d68ff"/>
+                <stop offset="1" stop-color="#5eddf6"/>
+              </linearGradient>
+              <linearGradient id="flameG" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#fff3a6"/>
+                <stop offset=".36" stop-color="#ffb14d"/>
+                <stop offset=".68" stop-color="#ff657c"/>
+                <stop offset="1" stop-color="rgba(255,80,120,0)"/>
+              </linearGradient>
+            </defs>
+            <g>
+              <path d="M50 8 C31 30 26 61 29 111 L71 111 C74 61 69 30 50 8Z" fill="url(#bodyG)" stroke="#d7e4ff" stroke-width="1.2"/>
+              <circle cx="50" cy="50" r="9" fill="#0d2448" stroke="#6bdcff" stroke-width="3"/>
+              <path d="M30 88 L14 125 L31 116 L38 103 Z" fill="url(#finG)"/>
+              <path d="M70 88 L86 125 L69 116 L62 103 Z" fill="url(#finG)"/>
+              <rect x="35" y="110" width="30" height="12" rx="3" fill="#20253a"/>
+              <g class="engineGlow" id="engineGlow">
+                <path d="M38 121 C40 145 44 164 50 191 C56 164 60 145 62 121 Z" fill="url(#flameG)"/>
+                <path d="M44 122 C46 141 48 153 50 170 C52 153 54 141 56 122 Z" fill="#fff7c7"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <div class="telemetryOverlay">
+          <div class="phase" id="phase">على منصة الإطلاق</div>
+          <div class="countdown" id="countdown"></div>
+          <div class="altScale">
+            <div class="t" style="bottom:0%"><span>0 km</span></div>
+            <div class="t" style="bottom:25%"><span>25</span></div>
+            <div class="t" style="bottom:50%"><span>50</span></div>
+            <div class="t" style="bottom:75%"><span>75</span></div>
+            <div class="t" style="bottom:100%"><span>100+</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="metrics">
+        <div class="metric"><span>الارتفاع</span><b id="alt">0.0</b> <em>km</em></div>
+        <div class="metric"><span>السرعة</span><b id="speed">0</b> <em>km/h</em></div>
+        <div class="metric"><span>الوقود</span><b id="fuel">100</b> <em>%</em></div>
+        <div class="metric"><span>التسارع</span><b id="g">0.0</b> <em>g</em></div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="card">
+        <div class="cardhead"><b>إعدادات المهمة</b><span class="live">قبل الإطلاق</span></div>
+        <div class="controls">
+          <label>قوة الدفع</label>
+          <input id="thrust" type="range" min="80" max="120" value="100">
+          <div class="val"><span>النسبة</span><b id="thrustVal">100%</b></div>
+
+          <label>حمولة الصاروخ</label>
+          <input id="payload" type="range" min="2" max="18" value="8">
+          <div class="val"><span>الحمولة</span><b><span id="payloadVal">8</span> طن</b></div>
+
+          <div class="actions">
+            <button class="primary" id="launch">ابدأ المحاكاة</button>
+            <button class="secondary" id="reset">إعادة ضبط</button>
+          </div>
+          <div class="hint">محاكاة تعليمية مبسطة لعرض مراحل الإطلاق وتغير السرعة والارتفاع والوقود. ليست نموذجًا هندسيًا حقيقيًا.</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="cardhead"><b>مراحل المهمة</b><span class="live" id="stepCount">0 / 5</span></div>
+        <div class="timeline">
+          <div class="step" data-i="0"><div class="stepnum">1</div><div><b>تهيئة الأنظمة</b><small>فحص الملاحة والدفع</small></div><span class="state">بانتظار</span></div>
+          <div class="step" data-i="1"><div class="stepnum">2</div><div><b>الاشتعال والإقلاع</b><small>مغادرة المنصة</small></div><span class="state">بانتظار</span></div>
+          <div class="step" data-i="2"><div class="stepnum">3</div><div><b>العبور الجوي</b><small>ارتفاع سريع وتسارع</small></div><span class="state">بانتظار</span></div>
+          <div class="step" data-i="3"><div class="stepnum">4</div><div><b>فصل المرحلة</b><small>تخفيف الكتلة</small></div><span class="state">بانتظار</span></div>
+          <div class="step" data-i="4"><div class="stepnum">5</div><div><b>إدخال مداري</b><small>الوصول للسرعة المطلوبة</small></div><span class="state">بانتظار</span></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="cardhead"><b>تقدم المهمة</b><span class="live" id="clock">T+ 00:00</span></div>
+        <div class="progress">
+          <div class="bar"><div class="fill" id="fill"></div></div>
+          <div class="progressMeta"><span id="progressText">جاهز للبدء</span><span id="progressNum">0%</span></div>
+        </div>
+        <div class="log" id="log"><div><b>SYS</b> الأنظمة في وضع الاستعداد.</div></div>
+      </section>
+    </aside>
+  </div>
+  <div class="footer">أفق | إعداد المعلمة / سلوى الزهراني</div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const steps=[...document.querySelectorAll('.step')];
+let running=false, raf=0, start=0, lastStep=-1, duration=21000;
+
+$('thrust').oninput=()=>{$('thrustVal').textContent=$('thrust').value+'%'}
+$('payload').oninput=()=>{$('payloadVal').textContent=$('payload').value}
+
+function log(msg){
+  const d=document.createElement('div'); d.innerHTML='<b>TLM</b> '+msg; $('log').prepend(d);
+}
+function setSteps(active){
+  let done=0;
+  steps.forEach((s,i)=>{
+    s.classList.remove('active','done');
+    const st=s.querySelector('.state');
+    if(i<active){s.classList.add('done');st.textContent='تم';done++}
+    else if(i===active){s.classList.add('active');st.textContent='جارٍ التنفيذ'}
+    else st.textContent='بانتظار';
+  });
+  if(active>=steps.length){steps.forEach(s=>{s.classList.add('done');s.classList.remove('active');s.querySelector('.state').textContent='تم'});done=steps.length}
+  $('stepCount').textContent=done+' / 5';
+}
+function phase(p){
+  if(p<.10)return ['تهيئة الأنظمة',0];
+  if(p<.27)return ['الاشتعال والإقلاع',1];
+  if(p<.52)return ['العبور الجوي',2];
+  if(p<.73)return ['فصل المرحلة الأولى',3];
+  if(p<.96)return ['تسارع مداري',4];
+  return ['إدخال مداري ناجح',5];
+}
+function fmt(ms){
+  const s=Math.floor(ms/1000); return 'T+ 00:'+String(s).padStart(2,'0');
+}
+async function countdown(){
+  const c=$('countdown');
+  for(const n of ['3','2','1']){
+    c.textContent=n;c.classList.add('show');
+    await new Promise(r=>setTimeout(r,700));
+  }
+  c.textContent='انطلاق'; await new Promise(r=>setTimeout(r,450)); c.classList.remove('show');
+}
+async function launch(){
+  if(running)return;
+  running=true; $('launch').disabled=true; $('thrust').disabled=true; $('payload').disabled=true;
+  $('liveDot').classList.add('on'); $('liveText').textContent='بث حي';
+  $('phase').textContent='تسلسل العد التنازلي';
+  setSteps(0); log('بدء تسلسل الإطلاق.');
+  await countdown();
+  if(!running)return;
+  $('engineGlow').classList.add('on'); $('smoke').classList.add('on');
+  start=performance.now(); lastStep=-1; raf=requestAnimationFrame(frame);
+}
+function frame(ts){
+  if(!running)return;
+  const t=ts-start, p=Math.min(t/duration,1);
+  const [name,st]=phase(p);
+
+  const thrust=Number($('thrust').value)/100;
+  const payload=Number($('payload').value);
+  const penalty=Math.max(.80,1-(payload-8)*.012);
+
+  let alt=0,spd=0,fuel=100,gg=0;
+  if(p<.10){gg=.15*(p/.10)}
+  else if(p<.27){const q=(p-.10)/.17;alt=10*q*q;spd=1700*q;fuel=100-18*q;gg=.5+1.25*q}
+  else if(p<.52){const q=(p-.27)/.25;alt=10+38*Math.pow(q,1.18);spd=1700+5200*q;fuel=82-32*q;gg=1.75+.5*Math.sin(q*Math.PI)}
+  else if(p<.73){const q=(p-.52)/.21;alt=48+42*q;spd=6900+7000*q;fuel=50-24*q;gg=1.35+.7*q}
+  else {const q=(p-.73)/.27;alt=90+120*q;spd=13900+14500*q;fuel=26-18*q;gg=2.0-.9*q}
+
+  alt*=thrust*penalty; spd*=thrust*penalty;
+  $('alt').textContent=alt.toFixed(1);
+  $('speed').textContent=Math.round(spd).toLocaleString('en-US');
+  $('fuel').textContent=Math.max(0,Math.round(fuel));
+  $('g').textContent=gg.toFixed(1);
+  $('clock').textContent=fmt(t);
+  $('fill').style.width=(p*100)+'%';
+  $('progressNum').textContent=Math.round(p*100)+'%';
+  $('progressText').textContent=name;
+  $('phase').textContent=name;
+
+  // Smooth visual ascent; controls visibly affect trajectory.
+  const maxRise=305;
+  const rise=Math.min(maxRise, alt*1.48);
+  $('rocketWrap').style.bottom=(68+rise)+'px';
+  $('rocketWrap').style.transform='translateX(-50%) rotate('+(Math.sin(p*10)*1.5)+'deg)';
+
+  if(st!==lastStep){lastStep=st;setSteps(st);log(name)}
+  if(p<1) raf=requestAnimationFrame(frame); else finish();
+}
+function finish(){
+  running=false;$('engineGlow').classList.remove('on');$('smoke').classList.remove('on');
+  $('liveText').textContent='مهمة مكتملة';$('phase').textContent='تم تحقيق المدار';
+  $('progressText').textContent='اكتملت المهمة بنجاح';$('progressNum').textContent='100%';$('fill').style.width='100%';
+  setSteps(5);$('stepCount').textContent='5 / 5';log('إدخال مداري ناجح — انتهت المحاكاة.');
+  $('launch').disabled=false;
+}
+function reset(){
+  running=false;cancelAnimationFrame(raf);
+  $('launch').disabled=false;$('thrust').disabled=false;$('payload').disabled=false;
+  $('liveDot').classList.remove('on');$('liveText').textContent='جاهز';$('engineGlow').classList.remove('on');$('smoke').classList.remove('on');
+  $('rocketWrap').style.bottom='68px';$('rocketWrap').style.transform='translateX(-50%)';
+  $('alt').textContent='0.0';$('speed').textContent='0';$('fuel').textContent='100';$('g').textContent='0.0';
+  $('clock').textContent='T+ 00:00';$('fill').style.width='0%';$('progressNum').textContent='0%';$('progressText').textContent='جاهز للبدء';$('phase').textContent='على منصة الإطلاق';
+  setSteps(-1);$('stepCount').textContent='0 / 5';$('log').innerHTML='<div><b>SYS</b> الأنظمة في وضع الاستعداد.</div>';
+}
+$('launch').onclick=launch;$('reset').onclick=reset;
+</script>
+</body>
+</html>
