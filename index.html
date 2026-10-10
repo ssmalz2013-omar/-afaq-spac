@@ -6,44 +6,144 @@
 <title>أفق | رحلة إلى ما وراء الأرض</title>
 <style>
 :root{
-  --bg:#05030f;--panel:rgba(135,92,255,.10);--line:rgba(170,145,255,.22);
-  --txt:#f8f7ff;--muted:#cfc9e9;--cyan:#67efff;--blue:#6b8dff;--violet:#9b6cff;--pink:#d96cff;--green:#83efc0;
+  --bg:#040914; --panel:rgba(255,255,255,.08); --line:rgba(255,255,255,.16);
+  --txt:#f7fbff; --muted:#c7d6ea; --cyan:#86e8ff; --blue:#5aa8ff; --green:#7ff0bd;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;overflow:hidden;background:#02050b;color:var(--txt);font-family:Tahoma,Arial,sans-serif}
-body{background:radial-gradient(circle at 18% -8%,rgba(143,78,255,.42) 0,transparent 28%),radial-gradient(circle at 82% 8%,rgba(35,194,255,.26) 0,transparent 24%),linear-gradient(180deg,#0a0618 0,#06030f 46%,#02030a 100%)}
+body{background:radial-gradient(circle at 50% -15%,#163a77 0,#09152b 35%,#030712 70%,#010307)}
 #stars,#stars:before,#stars:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-repeat:repeat}
 #stars{background-image:radial-gradient(#fff 1px,transparent 1.4px),radial-gradient(#86e8ff 1px,transparent 1.4px);background-size:80px 80px,145px 145px;opacity:.55;animation:drift 34s linear infinite}
 #stars:before{background-image:radial-gradient(#fff 1.1px,transparent 1.5px);background-size:210px 210px;opacity:.25;animation:drift 55s linear infinite reverse}
 #stars:after{background-image:radial-gradient(#7fa9ff 1px,transparent 1.4px);background-size:125px 125px;opacity:.18;animation:drift 42s linear infinite}
 @keyframes drift{to{transform:translateY(-180px)}}
-.topbar{position:fixed;top:10px;left:10px;right:10px;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.pill,.soundbtn{border:1px solid var(--line);background:rgba(12,7,30,.76);backdrop-filter:blur(10px);color:white;border-radius:999px;padding:9px 13px;font-size:13px}
+
+.topbar{position:fixed;top:12px;left:12px;right:12px;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pill,.soundbtn{border:1px solid var(--line);background:rgba(2,8,19,.72);backdrop-filter:blur(10px);color:white;border-radius:999px;padding:10px 14px;font-size:13px}
 .soundbtn{cursor:pointer}
-.progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#67efff,#8d72ff,#d96cff);z-index:70;transition:width .45s ease}
+.progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,#7be7ff,#6ea4ff);z-index:70;transition:width .45s ease}
+
 .stage{position:relative;z-index:2;width:100vw;height:100vh;overflow:hidden}
-.slide{position:absolute;inset:0;padding:64px 18px 90px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateX(8%) scale(.985);transition:opacity .5s ease,transform .5s ease}
+.slide{position:absolute;inset:0;padding:70px 20px 95px;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transform:translateX(8%) scale(.985);transition:opacity .55s ease,transform .55s ease}
 .slide.active{opacity:1;pointer-events:auto;transform:none}
-.content{width:min(1120px,96vw);max-height:calc(100vh - 145px);overflow:auto;text-align:center;padding:8px 8px 20px;scrollbar-width:none}
+.slide.exit-left{opacity:0;transform:translateX(-10%) scale(.98)}
+.content{width:min(1120px,96vw);max-height:calc(100vh - 150px);overflow:auto;text-align:center;padding:8px 8px 22px;scrollbar-width:none}
 .content::-webkit-scrollbar{display:none}
-.kicker{display:inline-block;padding:7px 12px;border-radius:999px;background:linear-gradient(90deg,rgba(111,79,255,.16),rgba(80,220,255,.10));border:1px solid rgba(159,129,255,.36);color:#e7e0ff;margin-bottom:10px;font-size:13px}
-h1{font-size:clamp(48px,9vw,94px);margin:0;text-shadow:0 0 26px rgba(159,109,255,.30),0 0 16px rgba(82,224,255,.12)}
-h2{font-size:clamp(28px,5vw,46px);margin:6px 0 12px;text-shadow:0 0 18px rgba(151,103,255,.18)}
+.kicker{display:inline-block;padding:7px 12px;border-radius:999px;background:rgba(121,210,255,.1);border:1px solid rgba(121,210,255,.28);color:#c8f4ff;margin-bottom:12px;font-size:13px}
+h1{font-size:clamp(48px,9vw,94px);margin:0;letter-spacing:.5px}
+h2{font-size:clamp(30px,5vw,48px);margin:6px 0 14px}
 h3{margin:8px 0}
-p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px auto;max-width:840px}
-.btn{border:1px solid rgba(255,255,255,.22);border-radius:17px;padding:13px 21px;font-weight:700;font-size:16px;cursor:pointer;background:linear-gradient(135deg,#8d72ff,#6fe8ff);color:#080512;box-shadow:0 12px 32px rgba(127,96,255,.30)}
-.btn.dark{background:linear-gradient(135deg,rgba(139,102,255,.18),rgba(78,217,255,.10));color:white;box-shadow:none}
-.hero-orb{width:min(205px,46vw);aspect-ratio:1;border-radius:50%;margin:2px auto 16px;background:radial-gradient(circle at 30% 28%,#f0dcff 0 6%,#b97cff 10% 28%,#6b56df 48%,#213577 70%,#07132c 86%);box-shadow:0 0 90px rgba(153,91,255,.42),inset -32px -30px 58px rgba(0,0,0,.35);animation:float 4s ease-in-out infinite}
-@keyframes float{50%{transform:translateY(-8px)}}
-.rocket{font-size:67px;display:inline-block;filter:drop-shadow(0 0 20px rgba(255,255,255,.25));animation:rocketFloat 2.3s ease-in-out infinite}
-@keyframes rocketFloat{50%{transform:translateY(-7px) rotate(-4deg)}}
-.countdown{height:38px;font-size:30px;font-weight:800;margin:8px 0}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px auto 0}
-.card{background:linear-gradient(145deg,rgba(140,95,255,.11),rgba(44,191,255,.055));border:1px solid var(--line);border-radius:20px;padding:13px;cursor:pointer;transition:.2s;min-height:135px}
-.card:hover,.card:active{transform:translateY(-4px);box-shadow:0 0 38px rgba(139,92,246,.24),0 0 18px rgba(74,214,255,.10);border-color:rgba(169,132,255,.48)}
-.icon{font-size:38px}
-.tap{font-size:12px;color:#a9ecff;margin-top:6px}
-.planet{width:67px;aspect-ratio:1;border-radius:50%;margin:0 auto 8px;box-shadow:inset -14px -12px 24px rgba(0,0,0,.33),0 0 22px rgba(100,170,255,.14)}
+p{color:var(--muted);line-height:1.85;font-size:clamp(15px,2.2vw,19px);margin:8px auto;max-width:820px}
+.btn{border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:14px 22px;font-weight:700;font-size:16px;cursor:pointer;background:linear-gradient(180deg,#fff,#dcecff);color:#07101c;box-shadow:0 12px 30px rgba(70,150,255,.18)}
+.btn.dark{background:rgba(255,255,255,.08);color:white;box-shadow:none}
+.hero-orb{width:min(220px,48vw);aspect-ratio:1;border-radius:50%;margin:6px auto 22px;background:radial-gradient(circle at 30% 28%,#b2f4ff 0 7%,#4fbaff 10% 30%,#1d5cae 55%,#0a234e 78%);box-shadow:0 0 80px rgba(61,149,255,.4),inset -32px -30px 58px rgba(0,0,0,.35);animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-9px)}}
+
+.launch-sim{
+  position:relative;width:min(860px,94vw);height:390px;margin:12px auto 16px;
+  border-radius:28px;overflow:hidden;border:1px solid rgba(255,255,255,.16);
+  background:linear-gradient(#8fc7ef 0 42%,#cfe9fb 42% 58%,#6d87a0 58% 59%,#273747 59% 100%);
+  box-shadow:inset 0 0 60px rgba(0,0,0,.16);
+  transition:background 1.2s ease;
+}
+.launch-sim::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.0;transition:opacity 1.2s ease;
+  background:
+    radial-gradient(circle at 12% 18%,#fff 0 1px,transparent 1.8px),
+    radial-gradient(circle at 28% 8%,#fff 0 1.2px,transparent 2px),
+    radial-gradient(circle at 44% 22%,#fff 0 1px,transparent 1.8px),
+    radial-gradient(circle at 64% 12%,#fff 0 1.1px,transparent 2px),
+    radial-gradient(circle at 78% 29%,#fff 0 1.2px,transparent 2px),
+    radial-gradient(circle at 91% 13%,#fff 0 1px,transparent 1.8px);
+}
+.launch-sim.space{background:linear-gradient(#02040b,#071125 60%,#0a1731)}
+.launch-sim.space::before{opacity:1}
+.launch-sim.upper{background:linear-gradient(#153f72 0,#326b9b 34%,#759fc5 64%,#b5d7ed 100%)}
+.horizon{
+  position:absolute;left:-10%;right:-10%;bottom:-58px;height:120px;border-radius:50% 50% 0 0/100% 100% 0 0;
+  background:radial-gradient(ellipse at 50% 0,#406d38 0 22%,#2e5228 22% 42%,#1d321b 43% 100%);
+  box-shadow:0 -8px 24px rgba(0,0,0,.22);
+}
+.pad{
+  position:absolute;left:50%;bottom:38px;width:180px;height:12px;transform:translateX(-50%);
+  border-radius:8px;background:linear-gradient(#667584,#28333c);box-shadow:0 8px 0 #1c242b;
+}
+.tower{
+  position:absolute;left:calc(50% - 92px);bottom:51px;width:18px;height:188px;background:linear-gradient(90deg,#556473,#29333d);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.08);
+}
+.tower::before,.tower::after{content:"";position:absolute;left:16px;width:76px;height:8px;background:#495765;transform-origin:left center}
+.tower::before{top:58px;transform:rotate(-7deg)} .tower::after{top:112px;transform:rotate(7deg)}
+.rocket-real{
+  position:absolute;left:50%;bottom:50px;width:74px;height:226px;transform:translateX(-50%);
+  transform-origin:50% 100%;z-index:5;filter:drop-shadow(0 12px 12px rgba(0,0,0,.28));
+}
+.rocket-body{
+  position:absolute;inset:24px 13px 28px;border-radius:50% 50% 14% 14%/18% 18% 8% 8%;
+  background:linear-gradient(90deg,#cfd4da 0,#f8fbfd 31%,#ffffff 54%,#d7dde4 77%,#aeb6c0 100%);
+  border:1px solid rgba(20,35,50,.42);
+}
+.rocket-nose{
+  position:absolute;left:19px;top:0;width:36px;height:54px;
+  clip-path:polygon(50% 0,100% 100%,0 100%);background:linear-gradient(90deg,#bfc6ce,#fafcfd 50%,#aeb6be);
+}
+.rocket-window{
+  position:absolute;left:27px;top:64px;width:20px;height:20px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#bff7ff,#4bb8e4 48%,#184b68 68%);
+  border:3px solid #8e99a5;
+}
+.rocket-stripe{position:absolute;left:13px;right:13px;top:108px;height:12px;background:#b42828}
+.fin{position:absolute;bottom:21px;width:23px;height:48px;background:linear-gradient(#c9cfd6,#929ca7);z-index:-1}
+.fin.l{left:2px;clip-path:polygon(100% 0,100% 100%,0 100%)} .fin.r{right:2px;clip-path:polygon(0 0,100% 100%,0 100%)}
+.nozzle{position:absolute;left:27px;bottom:15px;width:20px;height:20px;background:#3b4148;clip-path:polygon(15% 0,85% 0,100% 100%,0 100%)}
+.flame{
+  position:absolute;left:24px;bottom:-44px;width:26px;height:64px;opacity:0;transform-origin:50% 0;
+  background:linear-gradient(#fff8c6 0 14%,#ffd64a 20%,#ff7a20 56%,rgba(255,45,0,0) 100%);
+  clip-path:polygon(50% 100%,0 20%,27% 30%,12% 0,50% 16%,88% 0,73% 30%,100% 20%);
+  filter:blur(.4px) drop-shadow(0 12px 9px rgba(255,115,35,.45));
+}
+.smoke-wrap{position:absolute;left:50%;bottom:33px;width:240px;height:110px;transform:translateX(-50%);pointer-events:none}
+.smoke{position:absolute;left:50%;bottom:0;width:24px;height:24px;border-radius:50%;background:rgba(225,230,234,.84);opacity:0}
+.launching .flame{opacity:1;animation:flamePulse .12s infinite alternate}
+.launching .rocket-real{animation:rocketShake .09s infinite alternate}
+.flying .rocket-real{animation:rocketAscent 6.4s cubic-bezier(.22,.64,.27,1) forwards}
+.flying .tower,.flying .pad,.flying .horizon{transition:opacity 1.2s ease;opacity:0}
+@keyframes flamePulse{to{transform:scaleY(1.18) scaleX(.88)}}
+@keyframes rocketShake{from{margin-left:-1px}to{margin-left:1px}}
+@keyframes rocketAscent{
+  0%{bottom:50px;transform:translateX(-50%) scale(1)}
+  24%{bottom:125px;transform:translateX(-50%) scale(.96)}
+  58%{bottom:235px;transform:translateX(-50%) scale(.78)}
+  82%{bottom:315px;transform:translateX(-50%) scale(.58)}
+  100%{bottom:345px;transform:translateX(-50%) scale(.42)}
+}
+@keyframes puff{
+  0%{opacity:.72;transform:translate(-50%,0) scale(.7)}
+  100%{opacity:0;transform:translate(var(--dx),-70px) scale(2.8)}
+}
+.sim-status{
+  position:absolute;top:14px;right:14px;left:14px;z-index:8;display:flex;justify-content:space-between;gap:8px;align-items:center;
+  font-size:13px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.6)
+}
+.phase{padding:7px 10px;border-radius:999px;background:rgba(3,11,25,.48);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(8px)}
+.altitude{font-weight:700}
+.countdown{height:42px;font-size:32px;font-weight:800;margin:8px 0}
+.launch-note{font-size:12px;color:#b9cbe0;margin-top:5px}
+@media(max-width:560px){
+  .launch-sim{height:330px}
+  .rocket-real{width:62px;height:190px}
+  .rocket-body{inset:20px 11px 24px}.rocket-nose{left:16px;width:30px;height:46px}
+  .rocket-window{left:22px;top:55px;width:18px;height:18px}.rocket-stripe{left:11px;right:11px;top:91px}
+  .fin{bottom:18px;height:42px}.nozzle{left:23px;bottom:12px;width:17px}.flame{left:20px}
+  .tower{left:calc(50% - 78px);height:158px}.tower::before,.tower::after{width:64px}
+}
+
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px auto 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;cursor:pointer;transition:.2s;min-height:150px}
+.card:hover,.card:active{transform:translateY(-5px);box-shadow:0 0 34px rgba(93,165,255,.18);border-color:rgba(130,220,255,.35)}
+.icon{font-size:42px}
+.tap{font-size:12px;color:#9feeff;margin-top:8px}
+.planet{width:78px;aspect-ratio:1;border-radius:50%;margin:0 auto 10px;box-shadow:inset -16px -14px 28px rgba(0,0,0,.33),0 0 25px rgba(100,170,255,.14)}
 .mercury{background:radial-gradient(circle at 30% 25%,#ddd,#8d837d 46%,#4b4745)}
 .venus{background:radial-gradient(circle at 35% 32%,#ffd27f,#d27b2f 50%,#824017)}
 .earth{background:radial-gradient(circle at 35% 35%,#63d4ff,#2477ca 52%,#163a70)}
@@ -52,69 +152,28 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
 .saturn{background:radial-gradient(circle,#e6cf97,#9d875d)}
 .uranus{background:radial-gradient(circle,#baf9fa,#66cdd7 60%,#3f899a)}
 .neptune{background:radial-gradient(circle,#7593ff,#385cdb 55%,#162c7b)}
-.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:15px}
-.saudi{background:linear-gradient(135deg,rgba(90,72,210,.24),rgba(32,185,230,.10))}
-.nav{position:fixed;z-index:55;left:50%;bottom:15px;transform:translateX(-50%);display:flex;align-items:center;gap:9px}
-.nav button{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:linear-gradient(145deg,rgba(19,11,44,.92),rgba(12,19,46,.88));color:white;font-size:20px;cursor:pointer}
-.nav .dots{display:flex;gap:7px;padding:0 5px}
+.challenge{margin:18px auto 0;max-width:800px;padding:18px;border:1px solid var(--line);background:rgba(255,255,255,.055);border-radius:22px}
+.challenge .btn{margin:5px;padding:10px 14px;font-size:14px}
+.feedback{min-height:32px;font-weight:700;margin-top:10px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+.saudi{background:linear-gradient(135deg,rgba(0,134,84,.18),rgba(255,255,255,.06))}
+.nav{position:fixed;z-index:55;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:10px}
+.nav button{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:rgba(3,9,22,.8);color:white;font-size:21px;cursor:pointer}
+.nav .dots{display:flex;gap:7px;padding:0 6px}
 .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);transition:.2s}
-.dot.active{background:#b69cff;transform:scale(1.25)}
-.overlay{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 28% 16%,rgba(130,80,255,.55),transparent 30%),radial-gradient(circle at 78% 24%,rgba(48,202,255,.26),transparent 24%),linear-gradient(180deg,#090515,#03040b 72%);display:flex;align-items:center;justify-content:center;padding:20px}
-.overlaybox{width:min(560px,92vw);padding:28px 20px;border-radius:28px;border:1px solid var(--line);background:rgba(255,255,255,.065);backdrop-filter:blur(14px);text-align:center}
+.dot.active{background:#9aeaff;transform:scale(1.25)}
+.overlay{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 50% 22%,#163866,#050914 62%);display:flex;align-items:center;justify-content:center;padding:20px}
+.overlaybox{width:min(560px,92vw);padding:30px 22px;border-radius:28px;border:1px solid var(--line);background:rgba(255,255,255,.065);backdrop-filter:blur(14px);text-align:center}
 .modal{position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:18px}
 .modal.show{display:flex}
-.modalbox{width:min(720px,94vw);max-height:86vh;overflow:auto;background:linear-gradient(160deg,#160c34,#071226);border:1px solid var(--line);border-radius:26px;padding:24px;text-align:right;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.modalbox{width:min(720px,94vw);max-height:86vh;overflow:auto;background:linear-gradient(160deg,#0f2140,#07101d);border:1px solid var(--line);border-radius:28px;padding:25px;text-align:right;box-shadow:0 30px 80px rgba(0,0,0,.5)}
 .modalbox .close{float:left;background:rgba(255,255,255,.1);color:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
-.modalbox .mini{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
-.modalbox .mini div{padding:10px;background:rgba(255,255,255,.06);border-radius:14px}
-.source{display:inline-block;color:#99e9ff;margin-top:10px;text-decoration:none;border-bottom:1px dashed #99e9ff}
+.modalbox .mini{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:15px 0}
+.modalbox .mini div{padding:11px;background:rgba(255,255,255,.06);border-radius:14px}
+.source{display:inline-block;color:#99e9ff;margin-top:12px;text-decoration:none;border-bottom:1px dashed #99e9ff}
 .hidden{display:none!important}
-
-/* بطاقات قلب تفاعلية */
-.flipgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:930px;margin:16px auto 0}
-.flip{height:175px;perspective:1000px;cursor:pointer}
-.flipinner{position:relative;width:100%;height:100%;transition:transform .65s;transform-style:preserve-3d}
-.flip.flipped .flipinner{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;backface-visibility:hidden;border:1px solid var(--line);border-radius:22px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(137,92,246,.15),rgba(54,183,255,.07));box-shadow:0 12px 34px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.04)}
-.back{transform:rotateY(180deg);background:linear-gradient(145deg,rgba(133,82,255,.34),rgba(39,192,255,.12))}
-.face b{font-size:19px}.face small{color:#aeefff;margin-top:8px}.back p{font-size:15px;line-height:1.65;margin:0}
-.signature{margin-top:18px;color:#e7ddff;font-size:14px;opacity:.95}
-.signature b{color:#fff}
-.note{font-size:12px;color:#a9bfd8;margin-top:8px}
-
-@media(max-width:820px){.grid,.timeline{grid-template-columns:repeat(2,1fr)}.flipgrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:520px){
-  .slide{padding-left:10px;padding-right:10px}.grid,.timeline,.flipgrid{gap:9px}
-  .card{padding:10px;min-height:122px}.planet{width:58px}.modalbox .mini{grid-template-columns:1fr}
-  .topbar{top:7px;left:7px;right:7px}.flip{height:162px}.face{padding:12px}.face b{font-size:16px}.back p{font-size:13px}
-}
-
-/* مختبر المحاكاة */
-.simlab{max-width:1020px;margin:14px auto 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.simbox{background:linear-gradient(145deg,rgba(137,92,246,.14),rgba(54,183,255,.07));border:1px solid var(--line);border-radius:22px;padding:15px;text-align:right;box-shadow:0 16px 38px rgba(0,0,0,.18)}
-.simbox h3{margin:0 0 6px;text-align:center}
-.simbox label{display:block;color:#dcd7ef;font-size:13px;margin-top:8px}
-.simbox input[type=range]{width:100%;accent-color:#9b6cff}
-.simbox select,.simbox input[type=number]{width:100%;margin-top:5px;padding:9px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:#100b24;color:#fff}
-.readout{margin-top:10px;padding:10px;border-radius:14px;background:rgba(255,255,255,.055);text-align:center;min-height:72px}
-.readout b{font-size:17px}
-.sim-rocket-wrap{height:112px;position:relative;overflow:hidden;margin:8px 0;border-radius:14px;background:linear-gradient(180deg,rgba(74,33,129,.26),rgba(6,11,26,.2))}
-.sim-rocket{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:44px;transition:transform 1s ease,bottom 1s ease,filter .3s}
-.sim-rocket.launch{bottom:66px;transform:translateX(-50%) scale(1.05);filter:drop-shadow(0 12px 18px rgba(255,115,70,.65))}
-.orbit-area{height:118px;position:relative;margin:8px 0}
-.orbit-earth{position:absolute;width:58px;height:58px;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 35% 35%,#63d4ff,#2477ca 52%,#163a70);box-shadow:0 0 24px rgba(72,170,255,.35)}
-.orbit-ring{position:absolute;width:128px;height:82px;border:1px dashed rgba(163,133,255,.52);border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
-.satellite{position:absolute;left:50%;top:6px;transform:translateX(-50%);font-size:25px;transition:all .7s ease}
-.satellite.fall{top:48px}
-.satellite.orbit{animation:orbital 3.2s linear infinite}
-.satellite.escape{top:-16px;left:88%}
-@keyframes orbital{
-0%{transform:translate(-50%,0) rotate(0deg) translateX(64px) rotate(0deg)}
-100%{transform:translate(-50%,0) rotate(360deg) translateX(64px) rotate(-360deg)}
-}
-.simnote{font-size:11px;color:#aab6d4;margin-top:6px;line-height:1.55}
-@media(max-width:820px){.simlab{grid-template-columns:1fr}}
-
+@media(max-width:820px){.grid,.timeline{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.slide{padding-left:12px;padding-right:12px}.grid,.timeline{gap:10px}.card{padding:12px;min-height:137px}.planet{width:66px}.modalbox .mini{grid-template-columns:1fr}.topbar{top:8px;left:8px;right:8px}}
 </style>
 </head>
 <body>
@@ -123,7 +182,7 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
 
 <div class="overlay" id="audioGate">
   <div class="overlaybox">
-    <div style="font-size:64px">🌌</div>
+    <div style="font-size:68px">🌌</div>
     <h2>أفق</h2>
     <p>رحلة تفاعلية قصيرة إلى ما وراء الأرض. اضغطي للبدء وتشغيل الخلفية الفضائية.</p>
     <button class="btn" id="enterBtn">🚀 ابدئي الرحلة بالصوت</button>
@@ -131,7 +190,7 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
 </div>
 
 <div class="topbar">
-  <div class="pill" id="stationLabel">المحطة 1 من 7</div>
+  <div class="pill" id="stationLabel">المحطة 1 من 6</div>
   <button class="soundbtn" id="soundBtn">🔊 الصوت يعمل</button>
 </div>
 
@@ -141,14 +200,35 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
   <section class="slide active">
     <div class="content">
       <span class="kicker">المحطة الأولى</span>
-      <div class="hero-orb"></div>
       <h1>أفق</h1>
       <h2>رحلة إلى ما وراء الأرض</h2>
-      <p>استكشفي الكواكب، اختبري معلوماتك، ثم انتقلي إلى ثورة الصواريخ وحضور المملكة في الفضاء.</p>
-      <div class="rocket">🚀</div>
+      <p>ابدئي بإطلاق الصاروخ من منصة أرضية، ثم شاهدي انتقاله عبر الغلاف الجوي حتى يصل إلى الفضاء وتظهر النجوم.</p>
+
+      <div class="launch-sim" id="launchSim" aria-label="محاكاة إطلاق صاروخ إلى الفضاء">
+        <div class="sim-status">
+          <span class="phase" id="flightPhase">على منصة الإطلاق</span>
+          <span class="phase altitude" id="altitude">الارتفاع: 0 كم</span>
+        </div>
+        <div class="horizon"></div>
+        <div class="tower"></div>
+        <div class="pad"></div>
+        <div class="smoke-wrap" id="smokeWrap"></div>
+
+        <div class="rocket-real" id="rocket">
+          <div class="rocket-nose"></div>
+          <div class="rocket-body"></div>
+          <div class="rocket-window"></div>
+          <div class="rocket-stripe"></div>
+          <div class="fin l"></div>
+          <div class="fin r"></div>
+          <div class="nozzle"></div>
+          <div class="flame"></div>
+        </div>
+      </div>
+
       <div class="countdown" id="countdown"></div>
-      <button class="btn" id="launchBtn">ابدئي الانطلاق</button>
-      <div class="signature">إعداد <b>المعلمة / سلوى الزهراني</b></div>
+      <button class="btn" id="launchBtn">🚀 ابدئي الإطلاق الحقيقي</button>
+      <div class="launch-note">المحاكاة تعليمية مبسطة: الصاروخ يصل إلى الفضاء الخارجي، ولا يصل فعليًا إلى النجوم.</div>
     </div>
   </section>
 
@@ -156,7 +236,7 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
     <div class="content">
       <span class="kicker">المحطة الثانية</span>
       <h2>الكواكب الثمانية</h2>
-      <p>اضغطي على أي كوكب لتظهر لك معلومة قصيرة وموثقة عنه.</p>
+      <p>اضغطي على أي كوكب لتظهر لك معلومة موثقة عنه.</p>
       <div class="grid">
         <div class="card" data-info="mercury"><div class="planet mercury"></div><b>عطارد</b><div class="tap">اضغطي للاستكشاف</div></div>
         <div class="card" data-info="venus"><div class="planet venus"></div><b>الزهرة</b><div class="tap">اضغطي للاستكشاف</div></div>
@@ -173,33 +253,19 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
   <section class="slide">
     <div class="content">
       <span class="kicker">المحطة الثالثة</span>
-      <h2>اقلب البطاقة واكتشف</h2>
-      <p>اضغطي على البطاقة لتظهر الإجابة أو المعلومة.</p>
-      <div class="flipgrid">
-        <div class="flip"><div class="flipinner">
-          <div class="face front"><div class="icon">🔥</div><b>ما أشد الكواكب حرارة؟</b><small>اضغطي لقلب البطاقة</small></div>
-          <div class="face back"><b>الزهرة</b><p>ليس عطارد. الغلاف الجوي الكثيف للزهرة يحبس الحرارة بقوة.</p></div>
-        </div></div>
-        <div class="flip"><div class="flipinner">
-          <div class="face front"><div class="icon">🧊</div><b>من العمالقة الجليدية؟</b><small>اضغطي لقلب البطاقة</small></div>
-          <div class="face back"><b>أورانوس ونبتون</b><p>أما المشتري وزحل فيُصنَّفان عملاقين غازيين.</p></div>
-        </div></div>
-        <div class="flip"><div class="flipinner">
-          <div class="face front"><div class="icon">🌍</div><b>كم عدد الكواكب الصخرية؟</b><small>اضغطي لقلب البطاقة</small></div>
-          <div class="face back"><b>أربعة</b><p>عطارد والزهرة والأرض والمريخ، وجميعها ذات أسطح صلبة.</p></div>
-        </div></div>
-        <div class="flip"><div class="flipinner">
-          <div class="face front"><div class="icon">🌕</div><b>هل القمر كوكب؟</b><small>اضغطي لقلب البطاقة</small></div>
-          <div class="face back"><b>لا</b><p>القمر تابع طبيعي يدور حول الأرض، وليس واحدًا من الكواكب الثمانية.</p></div>
-        </div></div>
-        <div class="flip"><div class="flipinner">
-          <div class="face front"><div class="icon">🛰️</div><b>ما أول قمر صناعي؟</b><small>اضغطي لقلب البطاقة</small></div>
-          <div class="face back"><b>سبوتنيك 1</b><p>أُطلق في 4 أكتوبر 1957 وافتتح عصر الفضاء.</p></div>
-        </div></div>
-        <div class="flip"><div class="flipinner">
-          <div class="face front"><div class="icon">🇸🇦</div><b>من رائدا المهمة السعودية 2023؟</b><small>اضغطي لقلب البطاقة</small></div>
-          <div class="face back"><b>ريانة برناوي وعلي القرني</b><p>انطلقت مهمتهما إلى محطة الفضاء الدولية في 21 مايو 2023.</p></div>
-        </div></div>
+      <h2>صخري أم عملاق؟</h2>
+      <p>الكواكب ليست من نوع واحد. اختاري بطاقة لمعرفة الفرق.</p>
+      <div class="grid" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:760px">
+        <div class="card" data-info="rocky"><div class="icon">🪨</div><h3>الكواكب الصخرية</h3><p>عطارد، الزهرة، الأرض، المريخ</p><div class="tap">اضغطي للتفاصيل</div></div>
+        <div class="card" data-info="giants"><div class="icon">🌪️</div><h3>العمالقة</h3><p>المشتري وزحل غازيان، أورانوس ونبتون جليديان</p><div class="tap">اضغطي للتفاصيل</div></div>
+      </div>
+      <div class="challenge">
+        <b>تحدٍّ سريع:</b>
+        <p>أي كوكب مما يلي يُصنَّف عملاقًا جليديًا؟</p>
+        <button class="btn dark quiz" data-ok="0">المشتري</button>
+        <button class="btn dark quiz" data-ok="1">أورانوس</button>
+        <button class="btn dark quiz" data-ok="0">المريخ</button>
+        <div class="feedback" id="quizFeedback"></div>
       </div>
     </div>
   </section>
@@ -208,11 +274,11 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
     <div class="content">
       <span class="kicker">المحطة الرابعة</span>
       <h2>ثورة الصواريخ</h2>
-      <p>اضغطي على أي محطة زمنية لتعرفي لماذا كانت نقطة تحوّل.</p>
+      <p>اضغطي على أي محطة زمنية لتكتشفي لماذا كانت نقطة تحوّل.</p>
       <div class="timeline">
         <div class="card" data-info="sputnik"><div class="icon">🛰️</div><h3>1957</h3><p>سبوتنيك 1</p><div class="tap">اضغطي للتفاصيل</div></div>
         <div class="card" data-info="apollo"><div class="icon">🌕</div><h3>1969</h3><p>أبولو 11</p><div class="tap">اضغطي للتفاصيل</div></div>
-        <div class="card" data-info="shuttle"><div class="icon">🛬</div><h3>1981</h3><p>كولومبيا STS-1</p><div class="tap">اضغطي للتفاصيل</div></div>
+        <div class="card" data-info="shuttle"><div class="icon">🛬</div><h3>1981</h3><p>المكوك كولومبيا</p><div class="tap">اضغطي للتفاصيل</div></div>
         <div class="card" data-info="reusable"><div class="icon">♻️</div><h3>العصر الحديث</h3><p>إعادة الاستخدام</p><div class="tap">اضغطي للتفاصيل</div></div>
       </div>
     </div>
@@ -222,81 +288,22 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
     <div class="content">
       <span class="kicker">المحطة الخامسة</span>
       <h2>المملكة والفضاء 🇸🇦</h2>
-      <p>ثلاث لمحات موثقة عن المهمة العلمية السعودية إلى محطة الفضاء الدولية.</p>
+      <p>اضغطي على كل عنصر لاكتشاف جانب من المشاركة السعودية الحديثة في الفضاء.</p>
       <div class="grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
         <div class="card saudi" data-info="saudiMission"><div class="icon">👩‍🚀</div><h3>المهمة العلمية 2023</h3><div class="tap">اضغطي للتفاصيل</div></div>
-        <div class="card saudi" data-info="saudiResearch"><div class="icon">🧪</div><h3>تجارب الجاذبية الصغرى</h3><div class="tap">اضغطي للتفاصيل</div></div>
+        <div class="card saudi" data-info="saudiResearch"><div class="icon">🧪</div><h3>تجارب في الجاذبية الصغرى</h3><div class="tap">اضغطي للتفاصيل</div></div>
         <div class="card saudi" data-info="iss"><div class="icon">🛰️</div><h3>محطة الفضاء الدولية</h3><div class="tap">اضغطي للتفاصيل</div></div>
       </div>
-      <div class="note">المعلومات مأخوذة من وكالة الفضاء السعودية وNASA.</div>
     </div>
   </section>
 
-  
   <section class="slide">
     <div class="content">
       <span class="kicker">المحطة السادسة</span>
-      <h2>مختبر المحاكاة 🧪🚀</h2>
-      <p>ثلاث تجارب قصيرة تفاعلية تربط الفيزياء بالفضاء. غيّري القيم وشاهدي النتيجة مباشرة.</p>
-
-      <div class="simlab">
-        <div class="simbox">
-          <h3>🚀 هل سينطلق الصاروخ؟</h3>
-          <div class="sim-rocket-wrap"><div class="sim-rocket" id="simRocket">🚀</div></div>
-          <label>كتلة الصاروخ: <b id="massLabel">500</b> kg</label>
-          <input id="rocketMass" type="range" min="200" max="1200" step="50" value="500">
-          <label>قوة الدفع: <b id="thrustLabel">6</b> kN</label>
-          <input id="rocketThrust" type="range" min="2" max="20" step="0.5" value="6">
-          <button class="btn dark" id="testRocket" style="width:100%;margin-top:8px">اختبري الإطلاق</button>
-          <div class="readout" id="rocketResult">غيّري القيم ثم اختبري.</div>
-          <div class="simnote">نموذج تعليمي مبسّط: يبدأ الارتفاع عندما تتجاوز قوة الدفع وزن الصاروخ تقريبًا (نسبة الدفع إلى الوزن &gt; 1).</div>
-        </div>
-
-        <div class="simbox">
-          <h3>🪐 وزنك على الكواكب</h3>
-          <label>الكتلة (kg)</label>
-          <input id="massInput" type="number" min="1" max="200" value="50">
-          <label>اختاري الكوكب</label>
-          <select id="planetSelect">
-            <option value="3.70">عطارد</option>
-            <option value="8.87">الزهرة</option>
-            <option value="9.81" selected>الأرض</option>
-            <option value="3.71">المريخ</option>
-            <option value="24.79">المشتري</option>
-            <option value="10.44">زحل</option>
-            <option value="8.69">أورانوس</option>
-            <option value="11.15">نبتون</option>
-          </select>
-          <button class="btn dark" id="calcWeight" style="width:100%;margin-top:10px">احسبي الوزن</button>
-          <div class="readout" id="weightResult"><b>على الأرض:</b><br>≈ 490.5 نيوتن</div>
-          <div class="simnote">الكتلة ثابتة، أما الوزن فيتغير لأن قوة الجاذبية تختلف من كوكب لآخر.</div>
-        </div>
-
-        <div class="simbox">
-          <h3>🛰️ تحدي المدار</h3>
-          <div class="orbit-area">
-            <div class="orbit-ring"></div>
-            <div class="orbit-earth"></div>
-            <div class="satellite" id="satellite">🛰️</div>
-          </div>
-          <label>سرعة القمر الصناعي: <b id="speedLabel">7.8</b> km/s</label>
-          <input id="orbitSpeed" type="range" min="5" max="12" step="0.1" value="7.8">
-          <button class="btn dark" id="testOrbit" style="width:100%;margin-top:8px">اختبري المسار</button>
-          <div class="readout" id="orbitResult">جرّبي سرعة قريبة من 7.8 km/s.</div>
-          <div class="simnote">نموذج مبسّط قرب مدار أرضي منخفض: السرعة المدارية تعتمد على الارتفاع، وسرعة الإفلات من قرب سطح الأرض نحو 11.2 km/s.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<section class="slide">
-    <div class="content">
-      <span class="kicker">المحطة السابعة</span>
-      <div style="font-size:70px">✨🚀✨</div>
+      <div style="font-size:74px">✨🚀✨</div>
       <h2>اكتملت الرحلة</h2>
-      <p>من الكواكب إلى الصواريخ ثم إلى مشاركة المملكة في الفضاء — رحلة قصيرة، لكن كل محطة فيها اكتشاف.</p>
+      <p>من الكواكب إلى الصواريخ ثم إلى حضور المملكة في الفضاء — كل محطة كانت خطوة أبعد من الأرض.</p>
       <button class="btn" id="restartBtn">إعادة الرحلة</button>
-      <div class="signature">إعداد <b>المعلمة / سلوى الزهراني</b></div>
     </div>
   </section>
 </div>
@@ -317,40 +324,43 @@ p{color:var(--muted);line-height:1.8;font-size:clamp(14px,2.1vw,18px);margin:7px
 <script>
 const ambience=document.getElementById('ambience');
 const slides=[...document.querySelectorAll('.slide')];
-let index=0,audioOn=true,ctx=null;
+let index=0, audioOn=true, ctx=null;
 
 const infoData={
-mercury:{t:'☿ عطارد',p:'أصغر كواكب المجموعة الشمسية وأقربها إلى الشمس. يكمل دورة حول الشمس في نحو 88 يومًا أرضيًا.',m:['النوع: كوكب صخري','الموقع: الأول من الشمس'],w:'رغم قربه من الشمس، ليس عطارد أشد الكواكب حرارة؛ الزهرة أشد حرارة.',s:'https://science.nasa.gov/mercury/facts/'},
-venus:{t:'♀ الزهرة',p:'ثاني كوكب من الشمس، وهو كوكب صخري قريب من الأرض في الحجم.',m:['النوع: كوكب صخري','الموقع: الثاني من الشمس'],w:'الزهرة هو أشد كواكب المجموعة الشمسية حرارة بسبب تأثير الاحتباس الحراري القوي.',s:'https://science.nasa.gov/venus/facts/'},
-earth:{t:'🌍 الأرض',p:'ثالث كوكب من الشمس والكوكب الوحيد المعروف حتى الآن بوجود حياة عليه.',m:['النوع: كوكب صخري','قمر طبيعي: 1'],w:'يغطي الماء السائل معظم سطح الأرض.',s:'https://science.nasa.gov/earth/facts/'},
-mars:{t:'♂ المريخ',p:'رابع كوكب من الشمس، ويظهر بلون مائل للأحمر بسبب أكاسيد الحديد في تربته.',m:['النوع: كوكب صخري','قمران طبيعيان'],w:'يضم المريخ أوليمبوس مونس، أكبر بركان معروف في المجموعة الشمسية.',s:'https://science.nasa.gov/mars/facts/'},
-jupiter:{t:'♃ المشتري',p:'خامس كوكب من الشمس وأكبر كواكب المجموعة الشمسية.',m:['النوع: عملاق غازي','الموقع: الخامس من الشمس'],w:'تظهر عليه البقعة الحمراء العظيمة، وهي عاصفة ضخمة طويلة العمر.',s:'https://science.nasa.gov/jupiter/facts/'},
-saturn:{t:'♄ زحل',p:'سادس كوكب من الشمس، وهو عملاق غازي يشتهر بنظام حلقاته الواسع.',m:['النوع: عملاق غازي','الموقع: السادس من الشمس'],w:'حلقاته تتكون أساسًا من قطع جليدية وصخرية.',s:'https://science.nasa.gov/saturn/facts/'},
-uranus:{t:'⛢ أورانوس',p:'سابع كوكب من الشمس، ويُصنَّف عملاقًا جليديًا.',m:['النوع: عملاق جليدي','الموقع: السابع من الشمس'],w:'يمتاز بميل محوره الشديد، فيبدو كأنه يدور على جانبه.',s:'https://science.nasa.gov/uranus/facts/'},
-neptune:{t:'♆ نبتون',p:'ثامن كوكب من الشمس وأبعد الكواكب الرئيسية عنها.',m:['النوع: عملاق جليدي','الموقع: الثامن من الشمس'],w:'تصل في غلافه بعض أسرع الرياح المعروفة في المجموعة الشمسية.',s:'https://science.nasa.gov/neptune/facts/'},
+mercury:{t:'☿ عطارد',p:'أصغر كواكب المجموعة الشمسية وأقربها إلى الشمس. يكمل دورة حول الشمس في نحو 88 يومًا أرضيًا.',m:['النوع: كوكب صخري','الموقع: الأول من الشمس'],w:'رغم قربه من الشمس، ليس عطارد أشد الكواكب حرارة؛ الزهرة أشد حرارة بسبب غلافها الجوي الكثيف.',s:'https://science.nasa.gov/mercury/facts/'},
+venus:{t:'♀ الزهرة',p:'ثاني كوكب من الشمس، وهو كوكب صخري قريب من الأرض في الحجم.',m:['النوع: كوكب صخري','الموقع: الثاني من الشمس'],w:'الزهرة هو أشد كواكب المجموعة الشمسية حرارة بسبب تأثير الاحتباس الحراري القوي في غلافه الجوي.',s:'https://science.nasa.gov/venus/facts/'},
+earth:{t:'🌍 الأرض',p:'ثالث كوكب من الشمس والكوكب الوحيد المعروف حتى الآن بوجود حياة عليه.',m:['النوع: كوكب صخري','قمر طبيعي: 1'],w:'يغطي الماء السائل معظم سطح الأرض، وغلافها الجوي يساعد على توفير ظروف مناسبة للحياة.',s:'https://science.nasa.gov/earth/facts/'},
+mars:{t:'♂ المريخ',p:'رابع كوكب من الشمس، ويظهر بلون مائل للأحمر بسبب أكاسيد الحديد في تربته.',m:['النوع: كوكب صخري','قمران طبيعيان'],w:'يضم المريخ أوليمبوس مونس، وهو أكبر بركان معروف في المجموعة الشمسية.',s:'https://science.nasa.gov/mars/facts/'},
+jupiter:{t:'♃ المشتري',p:'خامس كوكب من الشمس وأكبر كواكب المجموعة الشمسية.',m:['النوع: عملاق غازي','الموقع: الخامس من الشمس'],w:'تظهر على المشتري البقعة الحمراء العظيمة، وهي عاصفة ضخمة طويلة العمر.',s:'https://science.nasa.gov/jupiter/facts/'},
+saturn:{t:'♄ زحل',p:'سادس كوكب من الشمس، وهو عملاق غازي يشتهر بنظام حلقاته الواسع.',m:['النوع: عملاق غازي','الموقع: السادس من الشمس'],w:'حلقات زحل تتكون أساسًا من قطع جليدية وصخرية بأحجام متعددة.',s:'https://science.nasa.gov/saturn/facts/'},
+uranus:{t:'⛢ أورانوس',p:'سابع كوكب من الشمس، ويُصنَّف عملاقًا جليديًا.',m:['النوع: عملاق جليدي','الموقع: السابع من الشمس'],w:'يمتاز أورانوس بميل محوره الشديد، فيبدو كأنه يدور على جانبه مقارنة بمعظم الكواكب.',s:'https://science.nasa.gov/uranus/facts/'},
+neptune:{t:'♆ نبتون',p:'ثامن كوكب من الشمس وأبعد الكواكب الرئيسية عنها.',m:['النوع: عملاق جليدي','الموقع: الثامن من الشمس'],w:'تصل في غلاف نبتون بعض أسرع الرياح المعروفة في المجموعة الشمسية.',s:'https://science.nasa.gov/neptune/facts/'},
+rocky:{t:'🪨 الكواكب الصخرية',p:'عطارد والزهرة والأرض والمريخ كواكب أرضية ذات أسطح صلبة وصخرية.',m:['عددها: 4','تقع في الجزء الداخلي من المجموعة الشمسية'],w:'تختلف في الحجم والغلاف الجوي، لكنها تشترك في طبيعتها الصخرية.',s:'https://science.nasa.gov/solar-system/terrestrial-planets/'},
+giants:{t:'🌪️ العمالقة الغازية والجليدية',p:'المشتري وزحل عملاقان غازيان، بينما أورانوس ونبتون عملاقان جليديان.',m:['الغازية: المشتري وزحل','الجليدية: أورانوس ونبتون'],w:'مصطلح «عملاق جليدي» يشير إلى اختلاف تركيب أورانوس ونبتون عن المشتري وزحل.',s:'https://science.nasa.gov/solar-system/planets/'},
 sputnik:{t:'🛰️ 1957 — سبوتنيك 1',p:'في 4 أكتوبر 1957 أطلق الاتحاد السوفيتي سبوتنيك 1، أول قمر صناعي في العالم، وبدأ بذلك عصر الفضاء.',m:['الحدث: أول قمر صناعي','السنة: 1957'],w:'كان يرسل إشارات راديوية يمكن التقاطها على الأرض.',s:'https://www.nasa.gov/history/dawn-of-the-space-age/'},
 apollo:{t:'🌕 1969 — أبولو 11',p:'في 20 يوليو 1969 هبطت أبولو 11 على القمر، وأصبح نيل أرمسترونغ أول إنسان يطأ سطحه.',m:['المهمة: Apollo 11','الوجهة: القمر'],w:'شارك أرمسترونغ وباز ألدرن في النشاط على سطح القمر.',s:'https://www.nasa.gov/history/july-20-1969-one-giant-leap-for-mankind/'},
 shuttle:{t:'🛬 1981 — المكوك الفضائي',p:'أطلقت ناسا أول مهمة لمكوك الفضاء STS-1 في 12 أبريل 1981 على متن كولومبيا.',m:['المهمة: STS-1','المركبة: كولومبيا'],w:'صُمم المكوك ليصل إلى المدار ثم يعود ويهبط بطريقة تشبه الطائرة الشراعية.',s:'https://www.nasa.gov/mission/sts-1/'},
-reusable:{t:'♻️ الصواريخ القابلة لإعادة الاستخدام',p:'من تحولات الإطلاق الحديثة تطوير مراحل صاروخية يمكن استردادها وإعادة استخدامها، ما يساعد على خفض كلفة الإطلاق المتكرر.',m:['الفكرة: استرداد وإعادة استخدام','الهدف: تقليل كلفة الإطلاق المتكرر'],w:'أصبحت إعادة الاستخدام جزءًا مهمًا من صناعة الإطلاق الحديثة.',s:'https://www.nasa.gov/humans-in-space/spaceships-and-rockets/commercial-crew-rockets/'},
-saudiMission:{t:'🇸🇦 المهمة العلمية السعودية 2023',p:'انطلقت المهمة في 21 مايو 2023 إلى محطة الفضاء الدولية، وشارك فيها ريانة برناوي وعلي القرني.',m:['الوجهة: محطة الفضاء الدولية','الانطلاق: 21 مايو 2023'],w:'كانت ريانة برناوي أول رائدة فضاء سعودية تصل إلى الفضاء.',s:'https://ssa.gov.sa/ar/humanSpaceProgram/'},
-saudiResearch:{t:'🧪 أبحاث في الجاذبية الصغرى',p:'شملت المهمة السعودية تجارب بحثية وعلمية في بيئة الجاذبية الصغرى، إلى جانب تجارب توعوية شارك فيها طلاب داخل المملكة.',m:['المكان: محطة الفضاء الدولية','المجال: أبحاث الجاذبية الصغرى'],w:'تضمنت المهمة 14 تجربة علمية وتعليمية: 11 تجربة بحثية في بيئة الجاذبية الصغرى، و3 تجارب توعوية تعليمية.',s:'https://ssa.gov.sa/ar/humanSpaceProgram/'},
-iss:{t:'🛰️ محطة الفضاء الدولية',p:'مختبر مأهول يدور في مدار أرضي منخفض، ويُستخدم لإجراء أبحاث في بيئة الجاذبية الصغرى.',m:['بدأ تجميعها: 1998','مأهولة باستمرار منذ: 2000'],w:'تكمل المحطة دورة حول الأرض تقريبًا كل 90 دقيقة.',s:'https://www.nasa.gov/international-space-station/'}
+reusable:{t:'♻️ الصواريخ القابلة لإعادة الاستخدام',p:'من أبرز تحولات العصر الحديث تطوير مراحل صاروخية يمكن استردادها وإعادة استخدامها، ما يغيّر اقتصاديات الإطلاق.',m:['الفكرة: استرداد وإعادة استخدام','مثال بارز: Falcon 9'],w:'يمثل هذا الاتجاه خطوة مهمة نحو خفض كلفة الوصول المتكرر إلى الفضاء.',s:'https://www.nasa.gov/humans-in-space/spaceships-and-rockets/commercial-crew-rockets/'},
+saudiMission:{t:'🇸🇦 المهمة العلمية السعودية 2023',p:'انطلقت مهمة رواد الفضاء السعودية في 21 مايو 2023 إلى محطة الفضاء الدولية، وشارك فيها ريانة برناوي وعلي القرني.',m:['الوجهة: محطة الفضاء الدولية','الانطلاق: 21 مايو 2023'],w:'كانت ريانة برناوي أول رائدة فضاء سعودية تصل إلى الفضاء.',s:'https://ssa.gov.sa/ar/humanSpaceProgram/'},
+saudiResearch:{t:'🧪 أبحاث سعودية في الجاذبية الصغرى',p:'شملت المهمة السعودية تجارب علمية وتعليمية في بيئة الجاذبية الصغرى بمشاركة جهات بحثية وطلاب داخل المملكة.',m:['البيئة: الجاذبية الصغرى','الهدف: البحث والتعليم'],w:'أتاحت المهمة ربط الطلاب والباحثين بتجارب مرتبطة ببيئة الفضاء.',s:'https://ssa.gov.sa/en/humanSpaceProgram'},
+iss:{t:'🛰️ محطة الفضاء الدولية',p:'محطة الفضاء الدولية مختبر مأهول يدور في مدار أرضي منخفض ويُستخدم لإجراء أبحاث في بيئة الجاذبية الصغرى.',m:['بدأ تجميعها: 1998','مأهولة باستمرار منذ: 2000'],w:'تدور المحطة حول الأرض تقريبًا كل 90 دقيقة.',s:'https://www.nasa.gov/international-space-station/'}
 };
 
 function beep(freq=520,d=.12){
-  if(!audioOn)return;
+  if(!audioOn) return;
   try{
-    if(!ctx)ctx=new (window.AudioContext||window.webkitAudioContext)();
-    if(ctx.state==='suspended')ctx.resume();
+    if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+    if(ctx.state==='suspended') ctx.resume();
     const o=ctx.createOscillator(),g=ctx.createGain();
-    o.frequency.value=freq;o.type='sine';g.gain.value=.04;
+    o.frequency.value=freq;o.type='sine';g.gain.value=.045;
     o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+d);
   }catch(e){}
 }
 function showSlide(n){
   if(n<0||n>=slides.length)return;
   slides[index].classList.remove('active');
-  index=n;slides[index].classList.add('active');
+  index=n;
+  slides[index].classList.add('active');
   document.getElementById('stationLabel').textContent=`المحطة ${index+1} من ${slides.length}`;
   document.getElementById('progress').style.width=`${((index+1)/slides.length)*100}%`;
   [...document.querySelectorAll('.dot')].forEach((d,i)=>d.classList.toggle('active',i===index));
@@ -359,13 +369,12 @@ function showSlide(n){
   beep(600,.08);
 }
 function openInfo(k){
-  const d=infoData[k];if(!d)return;
+  const d=infoData[k]; if(!d)return;
   document.getElementById('modalContent').innerHTML=`<h2 style="text-align:right">${d.t}</h2><p>${d.p}</p><div class="mini">${d.m.map(x=>`<div>${x}</div>`).join('')}</div><p><b>هل تعلمين؟</b> ${d.w}</p><a class="source" href="${d.s}" target="_blank" rel="noopener">المصدر الرسمي ↗</a>`;
   document.getElementById('modal').classList.add('show');beep(700,.08);
 }
 function closeModal(){document.getElementById('modal').classList.remove('show')}
 document.querySelectorAll('[data-info]').forEach(el=>el.addEventListener('click',()=>openInfo(el.dataset.info)));
-document.querySelectorAll('.flip').forEach(el=>el.addEventListener('click',()=>{el.classList.toggle('flipped');beep(el.classList.contains('flipped')?760:520,.08)}));
 document.getElementById('closeModal').onclick=closeModal;
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 
@@ -375,7 +384,7 @@ document.getElementById('nextBtn').onclick=()=>showSlide(index+1);
 document.getElementById('prevBtn').onclick=()=>showSlide(index-1);
 
 document.getElementById('enterBtn').onclick=async()=>{
-  audioOn=true;ambience.volume=.22;
+  audioOn=true; ambience.volume=.22;
   try{await ambience.play()}catch(e){}
   document.getElementById('audioGate').classList.add('hidden');
   document.getElementById('soundBtn').textContent='🔊 الصوت يعمل';
@@ -386,68 +395,88 @@ document.getElementById('soundBtn').onclick=async()=>{
   if(audioOn){try{await ambience.play()}catch(e){};document.getElementById('soundBtn').textContent='🔊 الصوت يعمل'}
   else{ambience.pause();document.getElementById('soundBtn').textContent='🔇 الصوت مكتوم'}
 };
+
+let launchRunning=false;
+function setFlight(phase, km){
+  document.getElementById('flightPhase').textContent=phase;
+  document.getElementById('altitude').textContent=`الارتفاع: ${km} كم`;
+}
+function spawnSmoke(){
+  const wrap=document.getElementById('smokeWrap');
+  for(let i=0;i<22;i++){
+    const p=document.createElement('span');
+    p.className='smoke';
+    p.style.setProperty('--dx',`${(Math.random()*180-90).toFixed(0)}px`);
+    p.style.left=`${45+Math.random()*10}%`;
+    p.style.animation=`puff ${1.2+Math.random()*1.4}s ease-out ${Math.random()*.7}s forwards`;
+    wrap.appendChild(p);
+    setTimeout(()=>p.remove(),2800);
+  }
+}
 document.getElementById('launchBtn').onclick=async()=>{
+  if(launchRunning) return;
+  launchRunning=true;
+  const btn=document.getElementById('launchBtn');
   const c=document.getElementById('countdown');
-  for(const n of ['3','2','1']){c.textContent=n;beep(320+Number(n)*80,.15);await new Promise(r=>setTimeout(r,500))}
-  c.textContent='انطلاق! 🚀';beep(150,.5);
-  await new Promise(r=>setTimeout(r,600));showSlide(1);c.textContent='';
+  const sim=document.getElementById('launchSim');
+  btn.disabled=true;
+  btn.textContent='جارٍ الإطلاق...';
+  sim.classList.remove('space','upper','flying','launching');
+  setFlight('جاهزية الإطلاق',0);
+
+  for(const n of ['3','2','1']){
+    c.textContent=n;
+    beep(280+Number(n)*95,.18);
+    await new Promise(r=>setTimeout(r,650));
+  }
+
+  c.textContent='اشتعال المحركات';
+  sim.classList.add('launching');
+  spawnSmoke();
+  setFlight('اشتعال المحركات',0);
+  beep(120,.6);
+  await new Promise(r=>setTimeout(r,1000));
+
+  c.textContent='انطلاق!';
+  sim.classList.add('flying');
+  spawnSmoke();
+
+  const steps=[
+    [700,'الإقلاع',1],
+    [1500,'المرور عبر طبقات الجو السفلى',12],
+    [2450,'الارتفاع في الغلاف الجوي',32],
+    [3250,'الطبقات العليا من الغلاف الجوي',65],
+    [4050,'قرب خط كارمان',90],
+    [4700,'الفضاء الخارجي',100],
+    [5600,'التحليق في الفضاء',160]
+  ];
+  steps.forEach(([t,phase,km])=>setTimeout(()=>{
+    setFlight(phase,km);
+    if(km>=32) sim.classList.add('upper');
+    if(km>=100){sim.classList.remove('upper');sim.classList.add('space')}
+  },t));
+
+  await new Promise(r=>setTimeout(r,6500));
+  c.textContent='✨ وصلنا إلى الفضاء — النجوم من حولنا';
+  setFlight('في الفضاء الخارجي',160);
+  sim.classList.remove('launching');
+  beep(830,.18); setTimeout(()=>beep(1050,.2),190);
+
+  await new Promise(r=>setTimeout(r,1800));
+  showSlide(1);
+  c.textContent='';
+  btn.disabled=false;
+  btn.textContent='🚀 ابدئي الإطلاق الحقيقي';
+  launchRunning=false;
 };
+
+document.querySelectorAll('.quiz').forEach(b=>b.onclick=()=>{
+  const ok=b.dataset.ok==='1';
+  document.getElementById('quizFeedback').textContent=ok?'✅ صحيح! أورانوس عملاق جليدي.':'❌ ليست الإجابة الصحيحة. جرّبي مرة أخرى.';
+  beep(ok?820:210,.16);
+});
 document.getElementById('restartBtn').onclick=()=>showSlide(0);
 document.addEventListener('keydown',e=>{if(e.key==='ArrowLeft')showSlide(index+1);if(e.key==='ArrowRight')showSlide(index-1)});
-
-// مختبر المحاكاة
-const rocketMass=document.getElementById('rocketMass');
-const rocketThrust=document.getElementById('rocketThrust');
-const massLabel=document.getElementById('massLabel');
-const thrustLabel=document.getElementById('thrustLabel');
-rocketMass.oninput=()=>massLabel.textContent=rocketMass.value;
-rocketThrust.oninput=()=>thrustLabel.textContent=rocketThrust.value;
-document.getElementById('testRocket').onclick=()=>{
-  const m=Number(rocketMass.value), thrust=Number(rocketThrust.value)*1000;
-  const twr=thrust/(m*9.81);
-  const r=document.getElementById('rocketResult'), icon=document.getElementById('simRocket');
-  icon.classList.remove('launch');
-  if(twr>1){
-    r.innerHTML=`✅ <b>ينطلق</b><br>نسبة الدفع إلى الوزن ≈ ${twr.toFixed(2)}`;
-    setTimeout(()=>icon.classList.add('launch'),30); beep(780,.16);
-  }else{
-    r.innerHTML=`❌ <b>الدفع غير كافٍ</b><br>النسبة ≈ ${twr.toFixed(2)} — نحتاج قيمة أكبر من 1 تقريبًا`;
-    beep(220,.16);
-  }
-};
-
-document.getElementById('calcWeight').onclick=()=>{
-  const m=Math.max(0,Number(document.getElementById('massInput').value)||0);
-  const sel=document.getElementById('planetSelect');
-  const g=Number(sel.value), planet=sel.options[sel.selectedIndex].text;
-  const w=m*g;
-  document.getElementById('weightResult').innerHTML=`<b>${planet}</b><br>${w.toFixed(1)} نيوتن`;
-  beep(680,.09);
-};
-
-const orbitSpeed=document.getElementById('orbitSpeed');
-const speedLabel=document.getElementById('speedLabel');
-orbitSpeed.oninput=()=>speedLabel.textContent=Number(orbitSpeed.value).toFixed(1);
-document.getElementById('testOrbit').onclick=()=>{
-  const v=Number(orbitSpeed.value);
-  const sat=document.getElementById('satellite');
-  const out=document.getElementById('orbitResult');
-  sat.className='satellite';
-  if(v>=11.2){
-    sat.classList.add('escape');
-    out.innerHTML='🚀 <b>مسار هروب</b><br>السرعة بلغت تقريبًا سرعة الإفلات أو تجاوزتها.';
-    beep(860,.16);
-  }else if(v>=7.4 && v<=8.2){
-    sat.classList.add('orbit');
-    out.innerHTML='✅ <b>مدار أرضي منخفض تقريبي</b><br>السرعة مناسبة تقريبًا لهذا النموذج.';
-    beep(760,.14);
-  }else{
-    sat.classList.add('fall');
-    out.innerHTML='⬇️ <b>لا يستقر في المدار</b><br>في هذا النموذج السرعة غير مناسبة لمدار دائري منخفض.';
-    beep(260,.14);
-  }
-};
-
 showSlide(0);
 </script>
 </body>
